@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -12,6 +13,7 @@ import demo.com.sb_final_project.repository.StockListReposiotry;
 import demo.com.sb_final_project.service.StockListService;
 
 @Component
+@EnableScheduling
 public class AppRunner implements CommandLineRunner{
   
   @Autowired
