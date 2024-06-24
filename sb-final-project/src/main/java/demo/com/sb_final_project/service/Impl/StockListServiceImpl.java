@@ -76,13 +76,9 @@ public class StockListServiceImpl implements StockListService{
     try{
       StockListEntity[] stocklist = redisHelper.get("stock-list", StockListEntity[].class);
       if (stocklist != null) {
-        log.info("redis");
-        log.info(Arrays.toString(stocklist));
         return List.of(stocklist);
       }
-      log.info("database");
       List<StockListEntity> temp = stockListReposiotry.findAll();
-      log.info(temp.toString());
       StockListEntity[] redis = new StockListEntity[temp.size()];
       for(int i=0;i<temp.size();i++){
         redis[i] = temp.get(i);

@@ -1,5 +1,6 @@
 package demo.com.sb_final_project.service.Impl;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -13,6 +14,8 @@ import demo.com.sb_final_project.config.ApiConnection;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.mapper.StockInfoMapper;
 import demo.com.sb_final_project.model.ApiResponse;
+import demo.com.sb_final_project.model.dto.SystemDate;
+import demo.com.sb_final_project.repository.StockListReposiotry;
 import demo.com.sb_final_project.repository.TStockReposiotory;
 import demo.com.sb_final_project.service.StockService;
 import lombok.extern.slf4j.Slf4j;
@@ -52,4 +55,15 @@ public class StockServiceImpl implements StockService{
     tStockReposiotory.save(result);
     return result;
   }
+
+  @Override
+  public SystemDate getSystemDate(String symbol){
+    return tStockReposiotory.findMaxMarketTimeBySymbol(symbol);
+  }
+
+  @Override
+  public List<TStockQuoteYahooEntity> getAllSystemDate(){
+    return tStockReposiotory.findMaxMarketTimeBySymbol();
+  }
+
 }

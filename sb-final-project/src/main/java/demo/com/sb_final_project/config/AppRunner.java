@@ -36,6 +36,14 @@ public class AppRunner implements CommandLineRunner{
     if(stockListReposiotry.count() ==0){
       stockListService.save("0388.HK","HKEX");
       stockListService.save("9988.HK", "BABA-SW");
+      stockListService.save("0700.HK", "TENCENT");
+      stockListService.save("0005.HK", "HSBC HOLDINGS");
+      stockListService.save("0001.HK", "CKH HOLDINGS");
+      stockListService.save("0066.HK", "MTR CORPORATION");
+      stockListService.save("2269.HK", "WUXI BIO");
+      stockListService.save("2800.HK", "TRACKER FUND");
+      stockListService.save("1211.HK", "BYD COMPANY");
+      stockListService.save("0020.HK", "SENSETIME-W");
     }
   }  
 

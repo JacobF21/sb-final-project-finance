@@ -5,6 +5,7 @@ import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
 
+
 public interface StockListService {
   
   public StockListEntity save(String symbol, String name);

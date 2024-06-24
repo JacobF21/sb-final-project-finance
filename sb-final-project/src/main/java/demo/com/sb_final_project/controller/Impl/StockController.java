@@ -7,6 +7,7 @@ import demo.com.sb_final_project.controller.StockOperation;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
+import demo.com.sb_final_project.model.dto.SystemDate;
 import demo.com.sb_final_project.service.StockListService;
 import demo.com.sb_final_project.service.StockService;
 
@@ -32,5 +33,15 @@ public class StockController implements StockOperation {
     @Override
     public TStockQuoteYahooEntity getStockData(String symbol, String type){
       return stockService.getStockData(symbol, type);
+    }
+
+    @Override
+    public SystemDate getSystemDate(String symbol){
+      return stockService.getSystemDate(symbol);
+    }
+
+    @Override
+    public List<TStockQuoteYahooEntity> getAllSystemDate(){
+      return stockService.getAllSystemDate();
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
+import demo.com.sb_final_project.model.dto.SystemDate;
 
 public interface StockOperation{
   @RequestMapping(value="/yahoo_finance/get")
@@ -17,4 +18,10 @@ public interface StockOperation{
 
   @RequestMapping(value ="/stock_data")
   public TStockQuoteYahooEntity getStockData(@RequestParam String symbol, @RequestParam String type);
+
+  @RequestMapping(value ="/system_date")
+  public SystemDate getSystemDate(@RequestParam String symbol);
+
+  @RequestMapping(value ="/all_system_date")
+  public List<TStockQuoteYahooEntity> getAllSystemDate();
 }
