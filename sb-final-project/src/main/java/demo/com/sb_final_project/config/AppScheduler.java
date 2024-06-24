@@ -12,7 +12,7 @@ public class AppScheduler {
   StockService stockService;
 
 
-  @Scheduled (cron = "0 */5 * ? * MON-FRI")
+  @Scheduled (cron = "0 */ * ? * MON-FRI")
   public void runTask(){
     stockService.getStockData("0388.HK","5M");
   }
