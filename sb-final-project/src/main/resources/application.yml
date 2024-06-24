@@ -20,3 +20,13 @@ spring.jpa:
   hibernate.ddl-auto: update # update
   # Hibernate ddl auto (create, create-drop, validate, update)
 
+
+management:
+  server:
+    port: 7001
+    address: localhost
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

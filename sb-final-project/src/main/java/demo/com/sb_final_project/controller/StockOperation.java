@@ -1,7 +1,6 @@
 package demo.com.sb_final_project.controller;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import demo.com.sb_final_project.entity.StockListEntity;
