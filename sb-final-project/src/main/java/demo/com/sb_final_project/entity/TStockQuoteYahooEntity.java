@@ -3,6 +3,7 @@ package demo.com.sb_final_project.entity;
 import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -14,6 +15,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name="TSTOCK_QUOTE_YAHOO")
+@IdClass(TStockQuoteYahooEntityPK.class)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,7 @@ import lombok.ToString;
 @Getter
 public class TStockQuoteYahooEntity {
 
+  @Id
   private String symbol;
   @Id
   private Long regularMarketUnix;
