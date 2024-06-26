@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import demo.com.sb_final_project.entity.StockListEntity;
+import demo.com.sb_final_project.infra.RedisHelper;
 import demo.com.sb_final_project.service.StockListService;
 import demo.com.sb_final_project.service.StockService;
 
@@ -18,12 +19,22 @@ public class AppScheduler {
   @Autowired
   StockListService stockListService;
 
+  @Autowired
+  private RedisHelper redisHelper;
+
 
   @Scheduled (cron = "0 */5 * ? * MON-FRI")
-  public void runTask(){
+  public void fiveMinsData(){
     List<StockListEntity> temp = stockListService.getStockList();
     for(int i =0;i<temp.size();i++){
       stockService.getStockData(temp.get(i).getSymbol(),"5M");
     }
   }
+
+  @Scheduled (cron = "0 55 8 * * *")
+  public void systemDateRedis(){
+    redisHelper.delete("stockSystemDate");
+  }
+
+
 }

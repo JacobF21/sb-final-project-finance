@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
-import demo.com.sb_final_project.model.dto.SystemDate;
+import demo.com.sb_final_project.model.dto.StockSystemDate;
+import demo.com.sb_final_project.model.dto.FiveMinData;
 
 public interface StockOperation{
   @RequestMapping(value="/yahoo_finance/get")
@@ -19,8 +20,11 @@ public interface StockOperation{
   public TStockQuoteYahooEntity getStockData(@RequestParam String symbol, @RequestParam String type);
 
   @RequestMapping(value ="/system_date")
-  public SystemDate getSystemDate(@RequestParam String symbol);
+  public StockSystemDate getSystemDate(@RequestParam String symbol);
 
   @RequestMapping(value ="/all_system_date")
-  public List<TStockQuoteYahooEntity> getAllSystemDate();
+  public List<StockSystemDate> getAllSystemDate();
+
+  @RequestMapping(value ="/get_five_mins_data")
+  public FiveMinData getFiveMinsData(String symbol);
 }

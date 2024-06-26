@@ -1,13 +1,16 @@
 package demo.com.sb_final_project.controller.Impl;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import demo.com.sb_final_project.controller.StockOperation;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
-import demo.com.sb_final_project.model.dto.SystemDate;
+import demo.com.sb_final_project.model.dto.StockSystemDate;
+import demo.com.sb_final_project.model.dto.FiveMinData;
 import demo.com.sb_final_project.service.StockListService;
 import demo.com.sb_final_project.service.StockService;
 
@@ -36,12 +39,17 @@ public class StockController implements StockOperation {
     }
 
     @Override
-    public SystemDate getSystemDate(String symbol){
+    public StockSystemDate getSystemDate(String symbol){
       return stockService.getSystemDate(symbol);
     }
 
     @Override
-    public List<TStockQuoteYahooEntity> getAllSystemDate(){
+    public List<StockSystemDate> getAllSystemDate(){
       return stockService.getAllSystemDate();
+    }
+
+    @Override
+    public FiveMinData getFiveMinsData(String symbol){
+      return stockService.getFiveMinsData(symbol);
     }
 }

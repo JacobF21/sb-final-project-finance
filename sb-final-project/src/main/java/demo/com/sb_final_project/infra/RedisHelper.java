@@ -37,4 +37,8 @@ public class RedisHelper {
     String json = this.redisTemplate.opsForValue().get(key);
     return json == null ? null:this.objectMapper.readValue(json, clazz);
   }
+
+  public void delete(String key){
+    this.redisTemplate.delete(key);
+  }
 }

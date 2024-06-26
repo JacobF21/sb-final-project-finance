@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import demo.com.sb_final_project.entity.StockListEntity;
+import demo.com.sb_final_project.infra.RedisHelper;
 import demo.com.sb_final_project.repository.StockListReposiotry;
 import demo.com.sb_final_project.service.StockListService;
 
@@ -29,7 +30,8 @@ public class AppRunner implements CommandLineRunner{
   private String domain;
 
   @Autowired
-  private RestTemplate restTemplate;
+  private RedisHelper redisHelper;
+
 
   @Override
   public void run(String... args){
@@ -45,6 +47,8 @@ public class AppRunner implements CommandLineRunner{
       stockListService.save("1211.HK", "BYD COMPANY");
       stockListService.save("0020.HK", "SENSETIME-W");
     }
+
+    redisHelper.delete("stockSystemDate");
   }  
 
 }

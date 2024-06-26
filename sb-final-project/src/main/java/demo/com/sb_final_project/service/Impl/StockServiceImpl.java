@@ -1,6 +1,8 @@
 package demo.com.sb_final_project.service.Impl;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -10,11 +12,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import demo.com.sb_final_project.config.ApiConnection;
+import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
+import demo.com.sb_final_project.infra.RedisHelper;
+import demo.com.sb_final_project.mapper.FiveMinsDataMapper;
 import demo.com.sb_final_project.mapper.StockInfoMapper;
+import demo.com.sb_final_project.mapper.StockSystemDateMapper;
 import demo.com.sb_final_project.model.ApiResponse;
-import demo.com.sb_final_project.model.dto.SystemDate;
+import demo.com.sb_final_project.model.dto.FiveMinData;
+import demo.com.sb_final_project.model.dto.StockSystemDate;
 import demo.com.sb_final_project.repository.StockListReposiotry;
 import demo.com.sb_final_project.repository.TStockReposiotory;
 import demo.com.sb_final_project.service.StockService;
@@ -28,6 +36,9 @@ public class StockServiceImpl implements StockService{
   private StockInfoMapper stockInfoMapper;
 
   @Autowired
+  private FiveMinsDataMapper fiveMinsDataMapper;
+
+  @Autowired
   private TStockReposiotory tStockReposiotory;
 
   @Autowired
@@ -38,6 +49,12 @@ public class StockServiceImpl implements StockService{
 
   @Value (value="${api.yahoo-finance.domain}")
   private String domain;
+
+  @Autowired
+  private RedisHelper redisHelper;
+
+  @Autowired
+  private StockSystemDateMapper stockSystemDateMapper;
   
   @Override
   public TStockQuoteYahooEntity getStockData(String symbol, String type){
@@ -57,13 +74,43 @@ public class StockServiceImpl implements StockService{
   }
 
   @Override
-  public SystemDate getSystemDate(String symbol){
-    return tStockReposiotory.findMaxMarketTimeBySymbol(symbol);
+  public StockSystemDate getSystemDate(String symbol){
+    try{
+      StockSystemDate stockSystemDate = redisHelper.get("SYSDATE-"+symbol,StockSystemDate.class);
+      if(stockSystemDate != null){
+        return stockSystemDate;
+      }
+      StockSystemDate redis = tStockReposiotory.findMaxMarketTimeBySymbol(symbol);
+      redisHelper.set("SYSDATE-"+symbol,redis,Duration.ofHours(24));
+      return redis;
+    }catch(JsonProcessingException e){
+      throw new RuntimeException("Error processing JSON", e);
+    }
+
   }
 
   @Override
-  public List<TStockQuoteYahooEntity> getAllSystemDate(){
-    return tStockReposiotory.findMaxMarketTimeBySymbol();
+  public List<StockSystemDate> getAllSystemDate(){
+    try{
+      StockSystemDate[] stockSystemDateList = redisHelper.get("stockSystemDate", StockSystemDate[].class);
+      if(stockSystemDateList != null){
+        return List.of(stockSystemDateList);
+      }
+      List<StockSystemDate> redis = tStockReposiotory.findMaxMarketTimeBySymbol().stream().map(stockSystemDateMapper::map).collect(Collectors.toList());
+      this.redisHelper.set("stockSystemDate",redis, Duration.ofHours(24));
+        return redis;
+    }
+    catch (JsonProcessingException e){
+      throw new RuntimeException("Error processing JSON", e);
+    }
+  }
+
+  @Override
+  public FiveMinData getFiveMinsData(String symbol){
+    String date = this.getSystemDate(symbol).getSystemDate();
+    log.info(date);
+    List<TStockQuoteYahooEntity> temp = tStockReposiotory.findBySymbolAndAPIDatetimeOrderByRegularMarketUnix(symbol, date);
+    return fiveMinsDataMapper.map(temp,temp.get(0).getRegularMarketUnix().toString());
   }
 
 }

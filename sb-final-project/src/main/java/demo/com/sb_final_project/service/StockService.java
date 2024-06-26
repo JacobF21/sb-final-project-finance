@@ -2,13 +2,16 @@ package demo.com.sb_final_project.service;
 
 import java.util.List;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
-import demo.com.sb_final_project.model.dto.SystemDate;
+import demo.com.sb_final_project.model.dto.StockSystemDate;
+import demo.com.sb_final_project.model.dto.FiveMinData;
 
 public interface StockService {
     
   public TStockQuoteYahooEntity getStockData(String symbol, String type);
   
-  public SystemDate getSystemDate(String symbol);
+  public StockSystemDate getSystemDate(String symbol);
 
-  public List<TStockQuoteYahooEntity> getAllSystemDate();
+  public List<StockSystemDate> getAllSystemDate();
+
+  public FiveMinData getFiveMinsData(String Symbol);
 }
