@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
+import demo.com.sb_final_project.model.YahooHistoryData;
 import demo.com.sb_final_project.model.dto.StockSystemDate;
 import demo.com.sb_final_project.model.dto.FiveMinData;
 
@@ -15,6 +16,9 @@ public interface StockOperation{
 
   @RequestMapping(value ="/stock_list")
   public List<StockListEntity> getStockList();
+
+  @RequestMapping(value ="/all_stock_in_hk")
+  public List<StockListEntity> getAllStockInHK();
 
   @RequestMapping(value ="/stock_data")
   public TStockQuoteYahooEntity getStockData(@RequestParam String symbol, @RequestParam String type);
@@ -27,4 +31,7 @@ public interface StockOperation{
 
   @RequestMapping(value ="/get_five_mins_data")
   public FiveMinData getFiveMinsData(String symbol);
+
+  @RequestMapping(value ="/history_data")
+  public List<YahooHistoryData> getHistoryDatas();
 }

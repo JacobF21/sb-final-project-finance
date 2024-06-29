@@ -1,0 +1,238 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1a1a1a; /* Dark background for cyberpunk style */
+  color: #ffffff; /* White text */
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 1200px; /* Limit max width for content */
+  margin: 20px auto; /* Center content horizontally with margin */
+  padding: 20px;
+}
+
+.content {
+  display: flex;
+  width: 100%;
+}
+
+.chart-container {
+  flex: 1; /* Take up remaining space */
+  display: flex;
+  flex-direction: column; /* Ensure child elements stack vertically */
+  justify-content: center; /* Center contents vertically */
+  align-items: center; /* Center contents horizontally */
+  margin-right: 20px; /* Space between chart and chat */
+}
+
+#stockChart {
+  width: 700px;
+  height: 800px;
+  transition: width 0.3s ease, height 0.3s ease; /* Smooth transitions for size changes */
+}
+
+.chart-expanded #stockChart {
+  width: 1200px; /* Expanded width */
+  height: 1200px; /* Expanded height */
+}
+
+.chat-container {
+  width: 500px; /* Fixed width for chat */
+  background-color: #333333; /* Dark gray background for chat */
+  border: 1px solid #555555; /* Dark border */
+  padding: 20px;
+  transition: width 0.3s ease; /* Smooth transition for width change */
+}
+
+.chat-container.hidden {
+  width: 0; /* Collapse chat-container when hidden */
+  padding: 0;
+  border: none;
+  overflow: hidden;
+}
+
+.chat-header {
+  background-color: #f0b90b; /* Green header */
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 10px;
+  border-radius: 5px 5px 0 0;
+}
+
+.chat-message {
+  height: 600px;
+  overflow-y: auto;
+  background-color: #222222; /* Darker background for messages */
+  border: 1px solid #555555; /* Dark border */
+  padding: 10px;
+  font: 16px/26px Georgia, Garamond, Serif;
+  box-sizing: border-box;
+}
+
+.chat-message p {
+  margin: 0;
+}
+
+.chat-message .message {
+  background-color: #222222; /* Darker background for messages */
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  clear: both;
+  display: inline-block;
+  max-width: 70%;
+}
+
+.chat-message .message.from-me {
+  background-color: #f0b90b; /* Green for messages from user */
+  color: white;
+  align-self: flex-end;
+}
+
+.chat-message .message .message-content {
+  word-wrap: break-word;
+}
+
+/* Input field and button styles */
+#conversationDiv {
+  margin-top: 10px;
+}
+
+#conversationDiv input[type="text"], #conversationDiv button {
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #555555; /* Dark border */
+  border-radius: 5px;
+  font-size: 14px;
+  background-color: #444444; /* Dark background for input */
+  color: white;
+}
+
+#conversationDiv button {
+  background-color: #f0b90b; /* Green button */
+  border: none;
+  cursor: pointer;
+}
+
+#conversationDiv button:disabled {
+  background-color: #555555; /* Darker disabled button */
+  cursor: not-allowed;
+}
+
+/* Search container styles */
+.search-container {
+  position: relative; /* Ensure relative positioning for absolute positioning inside */
+  display: inline-block; /* Ensure block-level display for the container */
+  margin-bottom: 10px; /* Optional: Adjust margin as needed */
+}
+
+.search-container select {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #555555; /* Dark border */
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: #444444; /* Dark background for input */
+  color: white;
+}
+
+.search-container button {
+  padding: 8px 16px;
+  background-color: #f0b90b; /* Green button */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.search-container button:hover {
+  background-color: #f0b90b; /* Darker green on hover */
+}
+
+#searchInput {
+  width: 200px; /* Adjust width of input box */
+  padding: 10px; /* Adjust padding */
+  font-size: 16px; /* Adjust font size */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none; /* Remove default focus outline */
+}
+
+#searchResults {
+  position: absolute;
+  top: calc(100% + 5px); /* Position below the searchInput */
+  left: 0;
+  z-index: 1000; /* Ensure dropdown is above other content */
+  width: 100%; /* Optional: Adjust width as needed */
+  max-height: 200px; /* Optional: Limit maximum height of results */
+  overflow-y: auto; /* Enable vertical scrolling */
+  background-color: #fff; /* Optional: Background color */
+  border: 1px solid #ccc; /* Optional: Border */
+  border-top: none; /* Optional: Remove top border for cleaner look */
+  border-radius: 0 0 5px 5px; /* Optional: Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+}
+
+#searchResults div {
+  padding: 12px; /* Adjust padding for each result item */
+  cursor: pointer; /* Add pointer cursor for clickable items */
+  transition: background-color 0.3s ease;
+  color: #ffbf00;
+}
+
+#searchResults div:hover {
+  background-color: #f0f0f0; /* Optional: Highlight on hover */
+}
+
+#searchResults div.selected {
+  background-color: #f0f0f0; /* Highlight selected item */
+}
+
+/* Optional: Adjust input and dropdown styling for focus state */
+#searchInput:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+/* Toggle chat button styles */
+#toggleChatButton {
+  background-color: #f0b90b; /* Yellow button */
+  color: #0f1925; /* Dark blue text */
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#toggleChatButton:hover {
+  background-color: #ffcc00; /* Lighter yellow on hover */
+}
+
+/* Chat toggle container styles */
+.chat-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.chat-toggle button {
+  background-color: #007bff; /* Blue button */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.chat-toggle button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}

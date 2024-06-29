@@ -9,6 +9,7 @@ import demo.com.sb_final_project.controller.StockOperation;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
+import demo.com.sb_final_project.model.YahooHistoryData;
 import demo.com.sb_final_project.model.dto.StockSystemDate;
 import demo.com.sb_final_project.model.dto.FiveMinData;
 import demo.com.sb_final_project.service.StockListService;
@@ -51,5 +52,15 @@ public class StockController implements StockOperation {
     @Override
     public FiveMinData getFiveMinsData(String symbol){
       return stockService.getFiveMinsData(symbol);
+    }
+
+    @Override
+    public List<YahooHistoryData> getHistoryDatas(){
+      return stockService.getHistoryData();
+    }
+
+    @Override
+    public List<StockListEntity> getAllStockInHK(){
+      return stockListService.getAllStockInHK();
     }
 }

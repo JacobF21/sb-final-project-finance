@@ -4,6 +4,7 @@ server:
 api:
   yahoo-finance:
     domain: 'https://query1.finance.yahoo.com/v7/finance/quote?symbols={$symbol}&crumb={$crumb}'
+    history-domain: 'https://query1.finance.yahoo.com/v8/finance/chart/{$symbol}?period1=1&period2=30000000000&interval=1d&events=history'
 
 database: 
   db-name: "final_project"

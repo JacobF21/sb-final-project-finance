@@ -5,18 +5,35 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.0</version>
+		<version>3.3.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>demo.com</groupId>
-	<artifactId>sb-final-project</artifactId>
-	<version>0.0.1</version>
-	<name>sb-final-project</name>
+	<artifactId>db-final-project-frontend</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>db-final-project-frontend</name>
 	<description>Demo project for Spring Boot</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -38,35 +55,16 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-    	<groupId>org.postgresql</groupId>
-    	<artifactId>postgresql</artifactId>
-    	<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-	 		<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-data-redis</artifactId>
-    </dependency>
 
-	<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.1-api</artifactId>
-			<version>1.0.2.Final</version>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
 	</dependency>
-
 	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-actuator</artifactId>
-</dependency>
-<dependency>
-		<groupId>io.micrometer</groupId>
-		<artifactId>micrometer-registry-prometheus</artifactId>
-</dependency>
-
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+	</dependency>
+	
 	</dependencies>
 
 	<build>

@@ -13,5 +13,8 @@ public interface StockListService {
   public ApiResponse get(String symbol);
 
   public List<StockListEntity> getStockList();
+
+  public List<StockListEntity> getAllStockInHK();
+  
    
 }

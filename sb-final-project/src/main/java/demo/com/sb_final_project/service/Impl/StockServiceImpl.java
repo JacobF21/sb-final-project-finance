@@ -1,8 +1,11 @@
 package demo.com.sb_final_project.service.Impl;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -19,12 +22,15 @@ import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.infra.RedisHelper;
 import demo.com.sb_final_project.mapper.FiveMinsDataMapper;
 import demo.com.sb_final_project.mapper.StockInfoMapper;
+import demo.com.sb_final_project.mapper.StockListMapper;
 import demo.com.sb_final_project.mapper.StockSystemDateMapper;
 import demo.com.sb_final_project.model.ApiResponse;
+import demo.com.sb_final_project.model.YahooHistoryData;
 import demo.com.sb_final_project.model.dto.FiveMinData;
 import demo.com.sb_final_project.model.dto.StockSystemDate;
 import demo.com.sb_final_project.repository.StockListReposiotry;
 import demo.com.sb_final_project.repository.TStockReposiotory;
+import demo.com.sb_final_project.service.StockListService;
 import demo.com.sb_final_project.service.StockService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +38,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StockServiceImpl implements StockService{
     
+  @Autowired
+  private StockListService stockListService;
+
   @Autowired
   private StockInfoMapper stockInfoMapper;
 
@@ -49,6 +58,9 @@ public class StockServiceImpl implements StockService{
 
   @Value (value="${api.yahoo-finance.domain}")
   private String domain;
+
+  @Value (value="${api.yahoo-finance.history-domain}")
+  private String historyDomain;
 
   @Autowired
   private RedisHelper redisHelper;
@@ -111,6 +123,22 @@ public class StockServiceImpl implements StockService{
     log.info(date);
     List<TStockQuoteYahooEntity> temp = tStockReposiotory.findBySymbolAndAPIDatetimeOrderByRegularMarketUnix(symbol, date);
     return fiveMinsDataMapper.map(temp,temp.get(0).getRegularMarketUnix().toString());
+  }
+
+  @Override
+  public List<YahooHistoryData> getHistoryData(){
+    List<StockListEntity> stockList = stockListService.getStockList();
+    log.info(stockList.toString());
+    List<YahooHistoryData> result = new ArrayList<>();
+    for(StockListEntity s:stockList){
+      String symbol = s.getSymbol();
+      String url = UriComponentsBuilder.fromUriString(historyDomain)
+      .buildAndExpand(symbol)
+      .toUriString();
+      YahooHistoryData historyData = restTemplate.getForObject(url, YahooHistoryData.class);
+      result.add(historyData);
+    }
+    return result;
   }
 
 }

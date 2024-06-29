@@ -2,8 +2,13 @@ package demo.com.sb_final_project.service.Impl;
 
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -19,6 +24,7 @@ import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.infra.RedisHelper;
 import demo.com.sb_final_project.mapper.StockInfoMapper;
+import demo.com.sb_final_project.mapper.StockListMapper;
 import demo.com.sb_final_project.model.ApiResponse;
 import demo.com.sb_final_project.repository.StockListReposiotry;
 import demo.com.sb_final_project.repository.TStockReposiotory;
@@ -43,6 +49,9 @@ public class StockListServiceImpl implements StockListService{
 
   @Autowired
   private RedisHelper redisHelper;
+
+  @Autowired
+  private StockListMapper stockListMapper;
 
   @Override
   public StockListEntity save(String symbol, String name){
@@ -88,6 +97,40 @@ public class StockListServiceImpl implements StockListService{
     } catch(JsonProcessingException e){
       throw new RuntimeException("Error processing JSON", e);
     }
+  }
+
+  @Override
+  public List<StockListEntity> getAllStockInHK(){
+    List<StockListEntity> result = new ArrayList<>();
+    HttpHeaders headers = new HttpHeaders();
+    String cookie = apiConnection.getCookie();
+    String crumb = apiConnection.getCrumb(cookie);
+    headers.add("Cookie", cookie);
+    List<String> symbolList = IntStream.rangeClosed(0, 9999)
+                              .mapToObj(num -> String.format("%04d.HK", num))
+                              .collect(Collectors.toList());
+    for(String symbol:symbolList){
+      String url = UriComponentsBuilder.fromUriString(domain)
+      .buildAndExpand(symbol, crumb)
+      .toUriString();
+      HttpEntity<ApiResponse> requestEntity = new HttpEntity<>(headers);
+      ResponseEntity<ApiResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, ApiResponse.class);
+      ApiResponse responseBody = responseEntity.getBody();
+      if(responseBody.getQuoteResponse().getResult().size() != 0 &&
+      "HKG".equals(responseBody.getQuoteResponse().getResult().get(0).getExchange())){
+        StockListEntity temp =stockListMapper.map(responseBody);
+        stockListReposiotry.save(temp);
+        result.add(temp);
+      }
+      try{
+        TimeUnit.SECONDS.sleep(10);
+      } catch(Exception e){
+        log.info("fail");
+      }
+
+    }
+    return result;
+
   }
 
 

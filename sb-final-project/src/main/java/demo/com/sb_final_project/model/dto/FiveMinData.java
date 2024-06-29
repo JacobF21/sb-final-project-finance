@@ -14,5 +14,4 @@ import lombok.NoArgsConstructor;
 public class FiveMinData {
   public String regularMarketTime;
   public List<TStockQuoteYahooEntity> data;
-
 }

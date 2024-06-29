@@ -17,7 +17,7 @@ public class StockInfoMapper {
     
     long marketTimeUnix = apiResponse.getQuoteResponse().getResult().get(0).getRegularMarketTime();
     LocalDateTime marketDateTime = LocalDateTime.ofInstant(Instant.ofEpochSecond(marketTimeUnix), ZoneId.systemDefault());
-
+    LocalDate marketDate =LocalDate.ofInstant(Instant.ofEpochSecond(marketTimeUnix), ZoneId.systemDefault());
 
     return TStockQuoteYahooEntity.builder()
     .symbol(apiResponse.getQuoteResponse().getResult().get(0).getSymbol())
@@ -28,7 +28,8 @@ public class StockInfoMapper {
     .bidSize(apiResponse.getQuoteResponse().getResult().get(0).getBidSize())
     .ask(apiResponse.getQuoteResponse().getResult().get(0).getAsk())
     .askSize(apiResponse.getQuoteResponse().getResult().get(0).getAskSize())
-    .APIDatetime(LocalDate.now().toString())
+    //.APIDatetime(LocalDate.now().toString())
+    .APIDatetime(String.valueOf(marketDate.toString()))
     .type(type)
     .MarketTime(String.valueOf(marketDateTime.toString()))
     .build();
