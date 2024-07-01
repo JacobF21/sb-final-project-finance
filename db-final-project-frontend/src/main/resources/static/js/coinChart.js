@@ -129,3 +129,5 @@ document.addEventListener('DOMContentLoaded', function() {
     initChart();
     const socket = connectWebSocket('btcusdt_perpetual');
 });
+
+

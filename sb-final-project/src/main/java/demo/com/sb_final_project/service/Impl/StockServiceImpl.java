@@ -158,7 +158,13 @@ public class StockServiceImpl implements StockService{
   }
 
   public List<TStockQuoteYahooEntity> getLatestRegularMarketChangePercent(){
-      return tStockReposiotory.findLatestRegularMarketChangePercent();
-  }
+    List<StockListEntity> temp = stockListService.getStockList();
+    List<TStockQuoteYahooEntity> result = new ArrayList<>();
+    for(int i =0;i<temp.size();i++){
+      result.add(tStockReposiotory.findLatestRegularMarketChangePercent(temp.get(i).getSymbol()));
+    }
+    return result;
+  }  
+
 
 }

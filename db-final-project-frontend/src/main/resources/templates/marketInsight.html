@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Top 10 HK Stock Market Cap</title>
+    <!-- Include Highcharts scripts -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <!-- Include your custom JavaScript file -->
+    <script th:src="@{/js/marketInsight.js}"></script>
+    <!-- Link to your CSS file(s) -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/marketInsight.css}">
+
+</head>
+
+<body>
+    <div class="navigation">
+        <a href="/">Home</a>
+        <a href="/realTime">Real-Time Bitcoin Data</a>
+        <a href="/marketInsight">Market Insight</a>
+        <!-- Add more links as needed -->
+    </div>
+
+    <div class="wrapper">
+        <div class="chart-container" id="top10marketcap">
+            <!-- Chart will be rendered here -->
+        </div>
+
+        <div class="chart-container" id="latestPriceChange">
+            <!-- Chart will be rendered here -->
+        </div>
+    </div>
+
+</body>
+
+</html>

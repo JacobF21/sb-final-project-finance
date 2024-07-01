@@ -6,6 +6,8 @@ import java.util.Locale;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Controller
@@ -24,5 +26,13 @@ public class ViewController {
       model.addAttribute("serverTime", dateFormat.format(new Date()));
       return "realTimeData";
   }
+
+  @GetMapping("/marketInsight")
+  public String marketInsight(Model model) {
+    DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.getDefault());
+    model.addAttribute("serverTime", dateFormat.format(new Date()));
+    return "marketInsight";
+  }
+  
   
 }

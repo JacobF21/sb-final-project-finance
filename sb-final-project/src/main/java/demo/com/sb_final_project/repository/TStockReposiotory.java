@@ -19,6 +19,6 @@ public interface TStockReposiotory extends JpaRepository<TStockQuoteYahooEntity,
 
   List<TStockQuoteYahooEntity> findBySymbolAndAPIDatetimeOrderByRegularMarketUnix(String symbol,String apiDatetime);
 
-  @Query(value = "SELECT t FROM TStockQuoteYahooEntity t WHERE t.regularMarketUnix = (SELECT MAX(t2.regularMarketUnix) FROM TStockQuoteYahooEntity t2 WHERE t2.symbol = t.symbol)")
-  List<TStockQuoteYahooEntity> findLatestRegularMarketChangePercent();
+  @Query(value = "SELECT t FROM TStockQuoteYahooEntity t WHERE t.regularMarketUnix = (SELECT MAX(t2.regularMarketUnix) FROM TStockQuoteYahooEntity t2 WHERE t2.symbol = :symbol) AND t.symbol = :symbol")
+  TStockQuoteYahooEntity findLatestRegularMarketChangePercent(@Param("symbol") String symbol);
 }

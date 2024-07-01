@@ -31,16 +31,20 @@ function connect() {
         showMessageOutput(JSON.parse(messageOutput.body));
         });
 
+        // Store connection details in sessionStorage
+        localStorage.setItem('userName', userName);
+
     });
 
 }
 
 function disconnect() {
-    if(stompClient != null) {
+    if (stompClient !== null) {
         stompClient.disconnect();
     }
     setConnected(false);
-    userName = null;
+    localStorage.removeItem('stompClient');
+    localStorage.removeItem('userName');
     console.log("Disconnected");
 }
 
@@ -80,3 +84,21 @@ function toggleChat() {
     chatContainer.classList.toggle('hidden'); // Toggle the 'hidden' class
     stockChart.classList.toggle('chart-expanded'); // Toggle the 'chart-expanded' class
   }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var storedClient = localStorage.getItem('stompClient');
+    var storedUserName = localStorage.getItem('userName');
+
+    if (storedClient && storedUserName) {
+        stompClient = JSON.parse(storedClient);
+        userName = storedUserName;
+        setConnected(true);
+        console.log('Reconnected to existing session');
+        
+        // Re-subscribe to topics or perform any other necessary initialization
+        // Example:
+        // stompClient.subscribe('/topic/messages', function (messageOutput) {
+        //    showMessageOutput(JSON.parse(messageOutput.body));
+        // });
+    }
+});
