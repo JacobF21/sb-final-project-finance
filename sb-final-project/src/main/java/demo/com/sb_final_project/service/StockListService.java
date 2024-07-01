@@ -1,6 +1,7 @@
 package demo.com.sb_final_project.service;
 
 import java.util.List;
+import demo.com.sb_final_project.entity.HKStockMarketCapEntity;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
@@ -15,6 +16,5 @@ public interface StockListService {
   public List<StockListEntity> getStockList();
 
   public List<StockListEntity> getAllStockInHK();
-  
    
 }

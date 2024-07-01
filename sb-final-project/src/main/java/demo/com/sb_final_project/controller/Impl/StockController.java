@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import demo.com.sb_final_project.controller.StockOperation;
+import demo.com.sb_final_project.entity.HKStockMarketCapEntity;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
@@ -62,5 +63,10 @@ public class StockController implements StockOperation {
     @Override
     public List<StockListEntity> getAllStockInHK(){
       return stockListService.getAllStockInHK();
+    }
+
+    @Override
+    public List<HKStockMarketCapEntity> getTopTenMarketCap(){
+      return stockService.getTopTenMarketCap();
     }
 }

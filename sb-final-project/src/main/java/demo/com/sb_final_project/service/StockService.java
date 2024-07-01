@@ -1,6 +1,7 @@
 package demo.com.sb_final_project.service;
 
 import java.util.List;
+import demo.com.sb_final_project.entity.HKStockMarketCapEntity;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.dto.StockSystemDate;
@@ -18,4 +19,7 @@ public interface StockService {
   public FiveMinData getFiveMinsData(String Symbol);
 
   public List<YahooHistoryData> getHistoryData();
+
+  public List<HKStockMarketCapEntity> getTopTenMarketCap();
+
 }

@@ -3,6 +3,7 @@ package demo.com.sb_final_project.controller;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import demo.com.sb_final_project.entity.HKStockMarketCapEntity;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.model.ApiResponse;
@@ -34,4 +35,7 @@ public interface StockOperation{
 
   @RequestMapping(value ="/history_data")
   public List<YahooHistoryData> getHistoryDatas();
+
+  @RequestMapping(value = "/top_10_mktcap")
+  public List<HKStockMarketCapEntity> getTopTenMarketCap();
 }

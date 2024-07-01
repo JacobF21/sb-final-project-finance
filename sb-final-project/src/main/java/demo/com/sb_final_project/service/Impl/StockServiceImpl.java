@@ -17,10 +17,12 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import demo.com.sb_final_project.config.ApiConnection;
+import demo.com.sb_final_project.entity.HKStockMarketCapEntity;
 import demo.com.sb_final_project.entity.StockListEntity;
 import demo.com.sb_final_project.entity.TStockQuoteYahooEntity;
 import demo.com.sb_final_project.infra.RedisHelper;
 import demo.com.sb_final_project.mapper.FiveMinsDataMapper;
+import demo.com.sb_final_project.mapper.HKStockMarketCapMapper;
 import demo.com.sb_final_project.mapper.StockInfoMapper;
 import demo.com.sb_final_project.mapper.StockListMapper;
 import demo.com.sb_final_project.mapper.StockSystemDateMapper;
@@ -28,6 +30,7 @@ import demo.com.sb_final_project.model.ApiResponse;
 import demo.com.sb_final_project.model.YahooHistoryData;
 import demo.com.sb_final_project.model.dto.FiveMinData;
 import demo.com.sb_final_project.model.dto.StockSystemDate;
+import demo.com.sb_final_project.repository.HKStockMarketCapRepository;
 import demo.com.sb_final_project.repository.StockListReposiotry;
 import demo.com.sb_final_project.repository.TStockReposiotory;
 import demo.com.sb_final_project.service.StockListService;
@@ -48,7 +51,13 @@ public class StockServiceImpl implements StockService{
   private FiveMinsDataMapper fiveMinsDataMapper;
 
   @Autowired
+  private HKStockMarketCapMapper hkStockMarketCapMapper;
+
+  @Autowired
   private TStockReposiotory tStockReposiotory;
+
+  @Autowired
+  private HKStockMarketCapRepository hkStockMarketCapRepository;
 
   @Autowired
   private ApiConnection apiConnection;
@@ -81,7 +90,10 @@ public class StockServiceImpl implements StockService{
     ResponseEntity<ApiResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, ApiResponse.class);
     ApiResponse responseBody = responseEntity.getBody();
     TStockQuoteYahooEntity result = stockInfoMapper.map(responseBody,symbol,type);
+    HKStockMarketCapEntity marketCap = hkStockMarketCapMapper.map(responseBody);
     tStockReposiotory.save(result);
+    hkStockMarketCapRepository.save(marketCap);
+    
     return result;
   }
 
@@ -139,6 +151,10 @@ public class StockServiceImpl implements StockService{
       result.add(historyData);
     }
     return result;
+  }
+
+  public List<HKStockMarketCapEntity> getTopTenMarketCap(){
+      return hkStockMarketCapRepository.findTop10ByOrderByMarketCapDesc();
   }
 
 }
