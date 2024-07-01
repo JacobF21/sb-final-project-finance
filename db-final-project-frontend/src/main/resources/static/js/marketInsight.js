@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   fetchAndRenderChartTopTen();
-  fetchAndRenderChartPriceChange();
+  fetchAndRenderTreemap();
 });
 
 function fetchAndRenderChartTopTen() {
@@ -21,8 +21,8 @@ function fetchAndRenderChartTopTen() {
       });
   }
 
-  function fetchAndRenderChartPriceChange() {
-    const apiUrl = "/latestPercentChange"; // Replace with your API endpoint URL
+  function fetchAndRenderTreemap() {
+    const apiUrl = "/latestPercentChange";
   
     fetch(apiUrl)
       .then(response => {
@@ -32,7 +32,7 @@ function fetchAndRenderChartTopTen() {
         return response.json();
       })
       .then(data => {
-        renderChartPriceChange(data); // Function to render the chart with fetched data
+        renderTreemap(data);
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -107,3 +107,79 @@ function fetchAndRenderChartTopTen() {
     });
   }
   
+
+  function renderTreemap(data) {
+    // Parse and format the data for Highcharts treemap
+    const seriesData = data.map(item => {
+        // Calculate brightness for green based on the value (0 to 1)
+        const brightness = Math.abs(item.regularMarketChangePercent) / 8; // Adjusted for range and scale
+        let color;
+
+        if (item.regularMarketChangePercent > 0) {
+            color = Highcharts.color('#00FF00').brighten(-brightness).get(); // Brighten towards green for positive values
+        } else if (item.regularMarketChangePercent < 0) {
+            color = Highcharts.color('#FF0000').brighten(brightness).get(); // Brighten towards red for negative values
+        } else {
+            color = '#FFFFFF'; // White for values close to 0
+        }
+        
+        return {
+            name: item.symbol,
+            color: color,
+            value: Math.abs(item.regularMarketChangePercent) // Absolute value for size
+        };
+    });
+
+    // Initialize Highcharts treemap chart
+    Highcharts.chart('treemapContainer', {
+        chart: {
+            type: 'treemap',
+            height: '100%',
+            backgroundColor: 'black'
+        },
+        title: {
+            text: 'Regular Market Change Percent',
+            style: {
+                color: '#FFFFFF'
+            }
+        },
+        series: [{
+            type: 'treemap',
+            layoutAlgorithm: 'squarified',
+            data: seriesData,
+            // Using color for individual item color
+            keys: ['name', 'value', 'color'],
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}'
+            }
+        }],
+        colorAxis: {
+            min: -10, // Minimum value for color axis
+            max: 10, // Maximum value for color axis
+            stops: [
+                [0, '#FF0000'], // Red for negative values
+                [0.5, '#FFFFFF'], // White for values close to 0
+                [1, '#00FF00'] // Green for positive values
+            ],
+            labels: {
+                format: '{value}%',
+                style: {
+                    color: '#FFFFFF'
+                }
+            }
+        }
+    });
+}
+
+// Example usage with fetching data from API
+fetch('https://your-api-endpoint.com/data')
+    .then(response => response.json())
+    .then(data => {
+        // Call renderTreemap function with fetched data
+        renderTreemap(data);
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+        // Handle error loading data from API
+    });

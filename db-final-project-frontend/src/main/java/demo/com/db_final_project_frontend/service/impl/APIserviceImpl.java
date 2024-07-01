@@ -36,7 +36,7 @@ RestTemplate restTemplate;
    }
 
    public List<FiveMinPriceChange> fetchFiveMinPriceChanges(){
-    String apiUrl= "http://jacobfinalproject.asuscomm.com//latestPercentChange";
+    String apiUrl= "http://jacobfinalproject.asuscomm.com/latestPercentChange";
     FiveMinPriceChange[] response = restTemplate.getForObject(apiUrl, FiveMinPriceChange[].class);
     return List.of(response);
    }
