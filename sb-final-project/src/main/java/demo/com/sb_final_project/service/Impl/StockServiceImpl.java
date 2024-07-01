@@ -157,4 +157,8 @@ public class StockServiceImpl implements StockService{
       return hkStockMarketCapRepository.findTop10ByOrderByMarketCapDesc();
   }
 
+  public List<TStockQuoteYahooEntity> getLatestRegularMarketChangePercent(){
+      return tStockReposiotory.findLatestRegularMarketChangePercent();
+  }
+
 }

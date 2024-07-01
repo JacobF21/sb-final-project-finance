@@ -1,6 +1,7 @@
 package demo.com.sb_final_project.controller;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import demo.com.sb_final_project.entity.HKStockMarketCapEntity;
@@ -10,6 +11,7 @@ import demo.com.sb_final_project.model.ApiResponse;
 import demo.com.sb_final_project.model.YahooHistoryData;
 import demo.com.sb_final_project.model.dto.StockSystemDate;
 import demo.com.sb_final_project.model.dto.FiveMinData;
+import demo.com.sb_final_project.model.dto.FiveMinPercentChange;
 
 public interface StockOperation{
   @RequestMapping(value="/yahoo_finance/get")
@@ -38,4 +40,8 @@ public interface StockOperation{
 
   @RequestMapping(value = "/top_10_mktcap")
   public List<HKStockMarketCapEntity> getTopTenMarketCap();
+
+  @RequestMapping(value ="/latestPercentChange")
+  public List<FiveMinPercentChange> getLatestRegularMarketChangePercent();
+  
 }

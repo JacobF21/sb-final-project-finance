@@ -22,4 +22,6 @@ public interface StockService {
 
   public List<HKStockMarketCapEntity> getTopTenMarketCap();
 
+  public List<TStockQuoteYahooEntity> getLatestRegularMarketChangePercent();
+
 }
