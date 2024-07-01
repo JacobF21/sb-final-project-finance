@@ -17,5 +17,12 @@ public class ViewController {
       model.addAttribute("serverTime", dateFormat.format(new Date()));
       return "index";
   }
+
+  @GetMapping("/realTime")
+  public String realTimePage(Model model) {
+      DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, Locale.getDefault());
+      model.addAttribute("serverTime", dateFormat.format(new Date()));
+      return "realTimeData";
+  }
   
 }

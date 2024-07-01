@@ -29,13 +29,13 @@ body {
   margin-right: 20px; /* Space between chart and chat */
 }
 
-#stockChart {
+#coinChart {
   width: 700px;
   height: 800px;
   transition: width 0.3s ease, height 0.3s ease; /* Smooth transitions for size changes */
 }
 
-.chart-expanded #stockChart {
+.chart-expanded #coinChart {
   width: 1200px; /* Expanded width */
   height: 1200px; /* Expanded height */
 }
@@ -255,4 +255,3 @@ body {
   background-color: #ddd;
   color: black;
 }
-

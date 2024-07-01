@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- <title>5-Minute Stock Price Chart</title> -->
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/stock.js"></script>
+  <script src="https://code.highcharts.com/modules/series-label.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <!-- <script src="https://code.highcharts.com/modules/drag-panes.js"></script>
+  <script src="https://code.highcharts.com/modules/annotations-advanced.js"></script>
+  <script src="https://code.highcharts.com/modules/price-indicator.js"></script>
+  <script src="https://code.highcharts.com/modules/full-screen.js"></script> -->
+  <script src="js/sockjs-0.3.4.js"></script>
+  <script src="js/stomp.js"></script>
+  <script th:src="@{/js/coinChart.js}"></script>
+  <script th:src="@{/js/chatbox-related.js}"></script>
+  <script th:src="@{js/populateStockOptions.js}"></script>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styles2.css}">
+
+</head>
+
+<body>
+
+  <div class="navigation">
+    <a href="/">Hong Kong Stock</a>
+    <a href="/realTime">Real-Time bitcoin data</a>
+    <a href="#">Market Insight</a>
+    <!-- Add more links as needed -->
+  </div>
+  <div class="wrapper">
+
+    <div class="chart-container">
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Enter crypto symbol">
+
+        <button id="searchButton" onclick="performSearch();">Search</button>
+    </div>
+      <div id="coinChart"></div>
+    </div>
+
+    
+    <div id="chatbox">
+      <button id="toggleChatButton" onclick="toggleChat();">Toggle Chat</button> 
+      <div class="chat-container">
+
+ 
+  
+        <div class="chat-header">
+          Chat Room
+        </div>
+      
+        <br/>
+
+        <div>
+          <input type="text" id="from" placeholder="Choose a nickname"/>
+          <button id="connect" onclick="connect();">Connect</button>
+          <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
+        </div>
+
+        <br/>
+        <div id="conversationDiv">
+          <input type="text" id="text" placeholder="Write a message..."/>
+          <button id="sendMessage" onclick="sendMessage();">Send</button>
+        </div>
+        <div id = "scroll" class='chat-message' style="height:600px;width:500px;border:1px;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+          <p id="response"></p>
+        </div>
+      </div>
+  </div>
+
+</div>
+
+
+</body>
+
+</html>
