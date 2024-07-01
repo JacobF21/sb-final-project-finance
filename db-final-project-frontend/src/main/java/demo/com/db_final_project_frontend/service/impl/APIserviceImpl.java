@@ -16,13 +16,13 @@ public class APIserviceImpl implements APIservice{
 RestTemplate restTemplate;
 
   public List<FiveMinData> fetchStockFiveMinData(String symbol){
-    String apiUrl= "http://charlesverygood.asuscomm.com/get_five_mins_data?symbol="+symbol;
+    String apiUrl= "http://jacobfinalproject.asuscomm.com/get_five_mins_data?symbol="+symbol;
     APIStockDataDTO response = restTemplate.getForObject(apiUrl, APIStockDataDTO.class);
     return response.getData();
   }
   
   public List<StockSymbol> fetchStockSymbols(){
-    String apiUrl= "http://charlesverygood.asuscomm.com/stock_list";
+    String apiUrl= "http://jacobfinalproject.asuscomm.com/stock_list";
     StockSymbol[] response = restTemplate.getForObject(apiUrl, StockSymbol[].class);
     return List.of(response);
   }
