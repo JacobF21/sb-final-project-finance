@@ -46,6 +46,11 @@ public class AppRunner implements CommandLineRunner{
       stockListService.save("2800.HK", "TRACKER FUND");
       stockListService.save("1211.HK", "BYD COMPANY");
       stockListService.save("0020.HK", "SENSETIME-W");
+      stockListService.save("0857.HK", "PETROCHINA");
+      stockListService.save("0883.HK", "CNOOC");
+      stockListService.save("0728.HK", "CHINA TELECOM");
+      stockListService.save("0762.HK", "CHINA UNICOM");
+      stockListService.save("0020.HK", "SINOPEC CORP");
     }
 
     redisHelper.delete("stockSystemDate");
